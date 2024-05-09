@@ -1,11 +1,14 @@
 python-dotenv==1.0.0
-pymongo[srv]
-telegram
+pymongo
+python-telegram-bot
 
 ## LLMs / embeddings
-llama-api
+llama-index-llms-llama-api
+llama-index-llms-gemini
 llama-index
-huggingface
+google-generativeai
+llama-index-vector-stores-mongodb
+llama-index-embeddings-gemini
 
 ## Utils
 ipykernel

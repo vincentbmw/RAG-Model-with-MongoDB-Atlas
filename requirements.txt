@@ -1,0 +1,14 @@
+python-dotenv==1.0.0
+pymongo[srv]
+telegram
+
+## LLMs / embeddings
+llama-api
+llama-index
+huggingface
+
+## Utils
+ipykernel
+ipython
+chardet==5.2.0
+charset-normalizer==3.3.2

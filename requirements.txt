@@ -1,5 +1,5 @@
 python-dotenv==1.0.0
-pymongo
+pymongo[srv]
 python-telegram-bot
 
 ## LLMs / embeddings

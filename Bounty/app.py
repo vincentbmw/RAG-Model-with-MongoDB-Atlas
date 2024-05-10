@@ -2,6 +2,7 @@
 import os, sys
 import pymongo
 sys.path.insert(0, '../')
+from urllib.request import urlopen
 from dotenv import find_dotenv, dotenv_values
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
@@ -10,7 +11,12 @@ from llama_index.core import ServiceContext
 from llama_index.core import StorageContext
 from llama_index.core import VectorStoreIndex
 from llama_index.vector_stores.mongodb import MongoDBAtlasVectorSearch
-from llama_index.llms.llama_api import LlamaAPI
+#from llama_index.llms.llama_api import LlamaAPI
+#from llama_index.llms.gemini import Gemini
+#from llama_index.llms.replicate import Replicate
+from langchain.llms import HuggingFacePipeline
+from sentence_transformers import SentenceTransformer
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, AutoModel, pipeline
 from llama_index.core import Settings
 
 # Define variables
@@ -38,12 +44,34 @@ def initialize():
 
 # LLM Function
 def setup_llm():
-    api_key = config.get('LLAMA_API_KEY')
-    
-    Settings.embed_model = HuggingFaceEmbedding(
-        model_name="BAAI/bge-small-en-v1.5"
+    os.environ['HUGGINGFACEHUB_API_TOKEN'] = config.get('HUGGING_FACE_API_KEY')
+    os.environ["REPLICATE_API_TOKEN"] = config.get('REPLICATE_API')
+    GOOGLE_API_KEY = config.get('GOOGLE_API_KEY')
+    os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
+
+
+    Settings.embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
+    #Settings.llm = Replicate(
+    #    model="a16z-infra/llama13b-v2-chat:df7690f1994d94e96ad9d568eac121aecf50684a0b0963b25a41cc40061269e5", 
+    #    system_prompt="""You are an efficient language model designed to respond promptly to user inquiries.
+    #        Responses should be concise and to the point, avoiding unnecessary elaboration unless requested by the user. But if user don't like the dog breed that you gived to user, just give another dog breeds""", 
+    #    temperature=0.75,
+    #    length_penalty=1,
+    #    max_new_tokens=1000
+    #)
+
+    model_id = 'infgrad/stella-base-en-v2'# go for a smaller model if you dont have the VRAM
+    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    model = SentenceTransformer("infgrad/stella-base-en-v2")
+
+    pipe = pipeline(
+        "text2text-generation",
+        model=model, 
+        tokenizer=tokenizer, 
+        max_length=1200
     )
-    Settings.llm = LlamaAPI(api_key=api_key)
+
+    Settings.llm = HuggingFacePipeline(pipeline=pipe)
     resp = Settings.llm.complete("Paul Graham is ")
     print(resp)
     service_context = ServiceContext.from_defaults(embed_model=Settings.embed_model, llm=Settings.llm)
@@ -61,8 +89,8 @@ def connect_llm(client):
     index = VectorStoreIndex.from_vector_store(vector_store=vector_store, service_context=service_context)
 
 # Query function
-def run_query(text):
-    response = index.as_query_engine().query(text)
+def run_query(question):
+    response = index.as_query_engine().query(question)
     return response
 
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -105,6 +133,8 @@ def main():
     app.run_polling(poll_interval=3)
 
 if __name__ == '__main__':
+    ip = urlopen('https://api.ipify.org').read()
+    print (f"My public IP is '{ip}.  Make sure this IP is allowed to connect to cloud Atlas")
     mongodb_client = initialize()
     setup_llm()
     connect_llm(mongodb_client)

@@ -9,6 +9,7 @@ llama-index
 google-generativeai
 llama-index-vector-stores-mongodb
 llama-index-embeddings-gemini
+llama-index-embeddings-huggingface
 
 ## Utils
 ipykernel

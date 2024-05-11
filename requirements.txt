@@ -4,11 +4,8 @@ python-telegram-bot
 
 ## LLMs / embeddings
 llama-index-llms-llama-api
-llama-index-llms-gemini
 llama-index
-google-generativeai
 llama-index-vector-stores-mongodb
-llama-index-embeddings-gemini
 llama-index-embeddings-huggingface
 
 ## Utils

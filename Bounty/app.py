@@ -1,6 +1,7 @@
 # Import libraries
 import os, sys
 import pymongo
+from urllib.request import urlopen
 sys.path.insert(0, '../')
 from dotenv import find_dotenv, dotenv_values
 from telegram import Update
@@ -43,7 +44,11 @@ def setup_llm():
     Settings.embed_model = HuggingFaceEmbedding(
         model_name="BAAI/bge-small-en-v1.5"
     )
-    Settings.llm = LlamaAPI(api_key=api_key)
+    Settings.llm = LlamaAPI(api_key=api_key, model="llama-7b-chat", temperature=0.7, system_prompt="""
+    You are an efficient language model designed to respond promptly to user inquiries.
+    Responses should be concise and to the point, avoiding unnecessary elaboration unless requested by the user.
+    Remember to give another dog breeds if users didn't like it                      
+    """)
     resp = Settings.llm.complete("Paul Graham is ")
     print(resp)
     service_context = ServiceContext.from_defaults(embed_model=Settings.embed_model, llm=Settings.llm)
@@ -105,6 +110,8 @@ def main():
     app.run_polling(poll_interval=3)
 
 if __name__ == '__main__':
+    ip = urlopen('https://api.ipify.org').read()
+    print (f"My public IP is '{ip}.  Make sure this IP is allowed to connect to cloud Atlas")
     mongodb_client = initialize()
     setup_llm()
     connect_llm(mongodb_client)

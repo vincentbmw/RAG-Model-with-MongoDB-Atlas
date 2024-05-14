@@ -1,5 +1,5 @@
 # Welcome to Pawspective!
-Pawspective is a Python-based application designed to assist individuals in finding their ideal canine companion for future adoption. This application not only facilitates the search for preferred dog breeds but also provides valuable insights into the care and training of dogs. Pawspective is integrated as a Telegram bot and Hosting by Virtual Private Server, offering users a seamless experience in discovering and learning about their prospective furry friends.
+Pawspective is a Python-based application designed to assist individuals in finding their ideal canine companion for future adoption. This application not only facilitates the search for preferred dog breeds but also provides valuable insights into the care and training of dogs. Pawspective is integrated as a Telegram bot and Hosted on a Virtual Private Server, offering users a seamless experience in discovering and learning about their prospective furry friends.
 
 ### Key Features:
 * <b>Breed Search</b>: Effortlessly explore various dog breeds to find the perfect match for your lifestyle and preferences.

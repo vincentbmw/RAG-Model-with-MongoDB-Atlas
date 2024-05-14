@@ -10,7 +10,7 @@ Pawspective is a Python-based application designed to assist individuals in find
   * LLM model from LLama AI: "llama-7b-chat".
  
 ### Usage
-* Search Telegram Bot: @pawspective_bot
+* Search Telegram Bot: <b>@pawspective_bot</b>
 * Chat the bot
 * Ask anything about dogs
 * Get the Answer

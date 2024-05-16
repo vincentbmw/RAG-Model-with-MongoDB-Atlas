@@ -44,7 +44,7 @@ def setup_llm():
     Settings.embed_model = HuggingFaceEmbedding(
         model_name="BAAI/bge-small-en-v1.5"
     )
-    Settings.llm = LlamaAPI(api_key=api_key, model="llama-7b-chat", temperature=0.7, system_prompt="""
+    Settings.llm = LlamaAPI(api_key=api_key, model="llama3-8b", temperature=0.7, system_prompt="""
     You are an efficient language model designed to respond promptly to user inquiries.
     Responses should be concise and to the point, avoiding unnecessary elaboration unless requested by the user.
     Remember to give another dog breeds if users didn't like it                      

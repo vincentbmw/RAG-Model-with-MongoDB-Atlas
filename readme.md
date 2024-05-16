@@ -7,7 +7,7 @@ Pawspective is a Python-based application designed to assist individuals in find
 * <b>Telegram Integration</b>: Seamlessly interact with Pawspective via Telegram, making it convenient to browse breeds and access information anytime, anywhere.
 * <b>Integrates two AI models</b>:
   * Embedding model from Hugging Face: "BAAI/bge-small-en-v1.5".
-  * LLM model from LLama AI: "llama-7b-chat".
+  * LLM model from LLama AI: "llama3-8b".
  
 ### Usage
 * Search Telegram Bot: <b>@pawspective_bot</b>
